@@ -1,0 +1,44 @@
+body {
+    margin: 0;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    height: 100px;
+
+    color: white;
+    background: #EECD56;
+}
+
+h3 {
+    text-align: center;
+}
+
+.row {
+    display: flex;
+    min-height: 100%;
+}
+
+.left-bar {
+  width: 300px;
+
+  padding: 10px;
+
+  background: #E9EAED;
+}
+
+.main {
+  padding: 10px;
+}
+
+input {
+    margin: 5px;
+}
+
+.sr-only {
+    display: none;
+}

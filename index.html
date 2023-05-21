@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta name="viewport" charset="utf-8" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Список дел</title>
+  <link rel="stylesheet" href="./CSS/main.css">
+</head>
+
+<body>
+  <div class="container">
+    <header><h3>Список дел</h3></header>
+    <div class="row">
+      <div class="col left-bar">
+        <h3>Списки</h3>
+        <form class="form-inline" data-container="new-list-form">
+          <label for="new-list-name" class="sr-only">Новый список</label>
+          <input type="text" id="new-list-name" class="form-control" name="name" required>
+          <input type="submit" class="btn" value="Добавить список">
+        </form>
+        <div data-container="lists"></div>
+      </div>
+      <div class="col main">
+        <h3>Дела</h3>
+        <form class="form-inline" data-container="new-task-form">
+          <label for="new-task-name" class="sr-only">Новое дело</label>
+          <input type="text" id="new-task-name" class="form-control" name="name" required>
+          <input type="submit" class="btn" value="Добавить дело">
+        </form>
+        <div data-container="tasks"></div>
+      </div>
+    </div>
+  </div>
+</body>
+<script src="./src/index.js"></script>
+</html>
