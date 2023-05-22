@@ -33,10 +33,24 @@ const render = (type) => {
 
     for (const item of data) {
       const li = document.createElement('li');
-      li.textContent = item.name;
+
+      li.innerHTML = item.checked === false ?
+      `<input type="checkbox" id="${item.id}" name="${item.name}"><label for="${item.id}">${item.name}</label>`
+      : `<input type="checkbox" id="${item.id}" name="${item.name}" checked><label for="${item.id}" class="strikethrough">${item.name}</label>`;
 
       taskEl.append(li);
     }
+
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    checkboxes.forEach(checkbox => {
+      checkbox.addEventListener('change', (e) => {
+        const chBoxName = e.target.name;
+        const actualTaks = state.tasks.filter((task) => task.name === chBoxName);
+        actualTaks[0].checked = e.target.checked;
+          const labelEl = checkbox.closest('li').querySelector('label');
+          labelEl.classList.toggle('strikethrough');
+      });
+    });
   }
 };
 
@@ -65,7 +79,7 @@ tasksForm.addEventListener('submit', (e) => {
   const formDataTask = new FormData(e.target);
   const taskName = formDataTask.get('name');
   idCount += 1;
-  state.tasks.push({ id: idCount, name: taskName, listId: state.activeListId });
+  state.tasks.push({ id: idCount, name: taskName, listId: state.activeListId, checked: false, });
   tasksForm.reset();
   tasksForm.focus();
 
