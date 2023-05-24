@@ -2,14 +2,27 @@ const state = {
   activeListId: null,
   lists: [],
   tasks: [],
+  changeList: {
+    status: false,
+  },
 };
 
 let idCount = 1;
-state.lists.push({ id: idCount, name: 'Основной' });
+const defaultList = { id: idCount, name: 'Основной' };
+state.lists.push(defaultList);
 state.activeListId = state.lists[0].id;
 
 const listEl = document.querySelector('[data-container="lists"]');
 const taskEl = document.querySelector('[data-container="tasks"]');
+
+const deleteList = (listId) => {
+  state.lists = state.lists.filter((stateList) => stateList.id !== Number(listId));
+  state.tasks = state.tasks.filter((stateTask) => stateTask.listId !== Number(listId));
+  state.activeListId = defaultList.id;
+
+  render('lists');
+  render('tasks');
+};
 
 const render = (type) => {
   if (type === 'lists') {
@@ -25,8 +38,31 @@ const render = (type) => {
         li.innerHTML = `<a href="#${li.textContent.toLowerCase()}">${li.textContent}</a>`;
       }
 
+      if (item.id !== defaultList.id) {
+        const changeButton = document.createElement('button');
+        changeButton.classList.add('change');
+        changeButton.setAttribute('id', `${item.id}`);
+        changeButton.setAttribute('value', 'change');
+        li.append(changeButton);
+
+        const deleteButton = document.createElement('button');
+        deleteButton.classList.add('delete');
+        deleteButton.setAttribute('id', `${item.id}`);
+        deleteButton.setAttribute('value', 'delete');
+        li.append(deleteButton);
+      }
+
       listEl.append(li);
     }
+
+    const deleteButtons = document.querySelectorAll('.delete');
+    deleteButtons.forEach((button) => {
+      button.addEventListener('click', (e) => {
+      e.stopPropagation();
+      deleteList(e.target.id);
+      });
+    });
+
   } else if (type === 'tasks') {
     taskEl.innerHTML = '';
     const data = state[type].filter((item) => item.listId === state.activeListId);
@@ -44,8 +80,8 @@ const render = (type) => {
     const checkboxes = document.querySelectorAll('input[type="checkbox"]');
     checkboxes.forEach(checkbox => {
       checkbox.addEventListener('change', (e) => {
-        const chBoxName = e.target.name;
-        const actualTaks = state.tasks.filter((task) => task.name === chBoxName);
+        const chBoxId = Number(e.target.id);
+        const actualTaks = state.tasks.filter((task) => task.id === chBoxId);
         actualTaks[0].checked = e.target.checked;
           const labelEl = checkbox.closest('li').querySelector('label');
           labelEl.classList.toggle('strikethrough');
