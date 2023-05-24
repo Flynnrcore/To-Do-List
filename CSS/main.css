@@ -1,20 +1,26 @@
 body {
     margin: 0;
-    height: 100vh;
+    height: 90vh;
 }
 
 .container {
     display: flex;
     flex-direction: column;
+
+    width: 1000px;
+
+    margin: 0px auto;
     height: 100%;
+
 }
 
 header {
     height: 100px;
+    border-radius: 5px;
 
     color: white;
     background: #E8814B;
-    border-bottom: 1px solid #868d99;
+    /* border-bottom: 1px solid #868d99; */
 }
 
 header > h3 {
@@ -26,26 +32,50 @@ header > h3 {
     display: flex;
     min-height: 100%;
     color: #1d1d1d;
+
+    border-radius: 5px;
 }
 
 .col > h3 {
-    color: #002626;
+    color: #8a4018;;
 
     margin-top: 0;
     margin-left: 5px;
     margin-bottom: 0;
 }
 
+
 li {
     list-style-type: none;
 }
 
+li > a {
+    vertical-align: top;
+}
+
+li > b {
+    color: black;
+    vertical-align: top;
+}
+
+li:has(b) > .delete {
+    display: inline;
+}
+
+li:has(b) > .change {
+    display: inline;
+}
+
 .left-bar {
-  width: 300px;
+  width: 400px;
+  border-radius: 5px;
 
   padding: 10px;
+  color: #AC4C17;
 
   background: #EFE7DA;
+
+  overflow: hidden;
 }
 
 [data-container="lists"] > li {
@@ -57,18 +87,59 @@ a:link {
     text-decoration: none;
 }
 
+a:active {
+    color: black;
+}
+
 a:hover {
     color: #fefefe;
 }
 
+.delete, .change {
+    width: 20px;
+    height: 20px;
+
+    padding: 0;
+    border: 0;
+    display: none;
+}
+
+.delete {
+
+    background-image: url('../image/basket.svg');
+    margin-left: 5px;
+
+    background-size: cover;
+    background-color: #EFE7DA;
+}
+
+.change {
+
+    background-image: url('../image/pen.png');
+    margin-left: 15px;
+
+    background-size: cover;
+    background-color: #EFE7DA;
+}
+
+.delete:hover, .change:hover {
+    opacity: 0.8;
+    transform: scale(0.95);
+}
+
 .main {
   padding: 10px;
+
   width: 100%;
+  border-radius: 5px;
+  border: 2px solid #EFE7DA;
+
+  overflow-y:scroll;
 }
 
 [data-container="tasks"] > li {
     padding: 10px;
-    border-bottom: 1px solid #868d99;
+    border-bottom: 1px dashed #868d99;
 }
 
 input[type="checkbox"] {
