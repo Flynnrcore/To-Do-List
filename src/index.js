@@ -32,10 +32,15 @@ const render = (type) => {
       const li = document.createElement('li');
       li.textContent = item.name;
 
+      const changeForm = document.createElement('form');
+      changeForm.innerHTML =  `<label class="sr-only" for="${item.id}">${item.name}</label>
+      <input type="text" id="${item.id}" name="name" value="${item.name}">
+      <input type="submit" value="изменить">`;
+
       if (item.id === state.activeListId) {
         li.innerHTML = `<b>${li.textContent}</b>`;
       } else {
-        li.innerHTML = `<a href="#${li.textContent.toLowerCase()}">${li.textContent}</a>`;
+        li.innerHTML = `<a id="${item.id}" href="#${li.textContent.toLowerCase()}">${li.textContent}</a>`;
       }
 
       if (item.id !== defaultList.id) {
@@ -50,19 +55,35 @@ const render = (type) => {
         deleteButton.setAttribute('id', `${item.id}`);
         deleteButton.setAttribute('value', 'delete');
         li.append(deleteButton);
-      }
+
+        deleteButton.addEventListener('click', (e) => {
+          e.stopPropagation();
+          deleteList(e.target.id);
+        });
+
+        changeButton.addEventListener('click', (e) => {
+          e.stopPropagation();
+          li.replaceChildren(changeForm);
+          changeForm.elements.name.focus();
+          changeForm.addEventListener('change', (e) => {
+            e.preventDefault();
+            const newListName = e.target.value;
+            if (newListName.length === 0) {
+              render('lists');
+            } else {
+              state.lists.map((list) => {
+                if (list.id === item.id) {
+                  list.name = newListName;
+                }
+              render('lists');
+              });
+            }
+          });
+        });
+      };
 
       listEl.append(li);
     }
-
-    const deleteButtons = document.querySelectorAll('.delete');
-    deleteButtons.forEach((button) => {
-      button.addEventListener('click', (e) => {
-      e.stopPropagation();
-      deleteList(e.target.id);
-      });
-    });
-
   } else if (type === 'tasks') {
     taskEl.innerHTML = '';
     const data = state[type].filter((item) => item.listId === state.activeListId);
@@ -124,9 +145,7 @@ tasksForm.addEventListener('submit', (e) => {
 
 listEl.addEventListener('click', (e) => {
   e.preventDefault();
-  const liEl = e.target;
-  const [{ id }] = state.lists.filter((list) => list.name === liEl.textContent);
-  state.activeListId = id;
+  state.activeListId = Number(e.target.id);
 
   render('lists');
   render('tasks');
