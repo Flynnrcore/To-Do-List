@@ -33,9 +33,9 @@ const render = (type) => {
       li.textContent = item.name;
 
       const changeForm = document.createElement('form');
-      changeForm.innerHTML =  `<label class="sr-only" for="${item.id}">${item.name}</label>
+      changeForm.innerHTML =  `<label class="sr-only" for="${item.id}"> Изменить ${item.name}</label>
       <input type="text" id="${item.id}" name="name" value="${item.name}">
-      <input type="submit" value="изменить">`;
+      <input type="submit" class="btn" value="изменить">`;
 
       if (item.id === state.activeListId) {
         li.innerHTML = `<b>${li.textContent}</b>`;
@@ -65,20 +65,24 @@ const render = (type) => {
           e.stopPropagation();
           li.replaceChildren(changeForm);
           changeForm.elements.name.focus();
-          changeForm.addEventListener('change', (e) => {
-            e.preventDefault();
-            const newListName = e.target.value;
-            if (newListName.length === 0) {
-              render('lists');
-            } else {
-              state.lists.map((list) => {
-                if (list.id === item.id) {
-                  list.name = newListName;
-                }
-              render('lists');
-              });
-            }
-          });
+        });
+
+        changeForm.addEventListener('change', (e) => {
+          e.preventDefault();
+
+          const formData = new FormData(changeForm);
+          const newListName = formData.get('name');
+
+          if (newListName.length === 0) {
+            render('lists');
+          } else {
+            state.lists.map((list) => {
+              if (list.id === item.id) {
+                list.name = newListName;
+              }
+            render('lists');
+            });
+          }
         });
       };
 
