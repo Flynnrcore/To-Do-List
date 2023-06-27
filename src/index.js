@@ -10,7 +10,7 @@ const state = {
 let idCount = 1;
 const defaultList = { id: idCount, name: 'Основной' };
 state.lists.push(defaultList);
-state.activeListId = state.lists[0].id;
+state.activeListId = defaultList.id;
 
 const listEl = document.querySelector('[data-container="lists"]');
 const taskEl = document.querySelector('[data-container="tasks"]');
@@ -67,22 +67,20 @@ const render = (type) => {
           changeForm.elements.name.focus();
         });
 
-        changeForm.addEventListener('change', (e) => {
+        changeForm.addEventListener('submit', (e) => {
           e.preventDefault();
 
           const formData = new FormData(changeForm);
           const newListName = formData.get('name');
 
-          if (newListName.length === 0) {
-            render('lists');
-          } else {
+          if (newListName.length !== 0) {
             state.lists.map((list) => {
               if (list.id === item.id) {
                 list.name = newListName;
               }
-            render('lists');
             });
           }
+          render('lists');
         });
       };
 
@@ -148,11 +146,16 @@ tasksForm.addEventListener('submit', (e) => {
 });
 
 listEl.addEventListener('click', (e) => {
-  e.preventDefault();
-  state.activeListId = Number(e.target.id);
+  const aEl = document.querySelector(`a[id = "${e.target.id}"]`);
+  const currentEl = e.target;
 
-  render('lists');
-  render('tasks');
+  if (currentEl.isEqualNode(aEl)) {
+    e.preventDefault();
+
+    state.activeListId = Number(currentEl.id);
+    render('lists');
+    render('tasks');
+  }
 });
 
 render('lists');
