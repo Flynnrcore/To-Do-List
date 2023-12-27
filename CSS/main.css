@@ -260,7 +260,7 @@ form {
   top: 2px;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 900px) and (orientation: portrait) {
   .container {
     grid-template-columns: 1fr;
     grid-template-rows: 0.5fr 3fr 3fr;
@@ -275,5 +275,16 @@ form {
 
   .main {
     border-bottom-left-radius: 20px;
+  }
+}
+
+@media (max-width: 890px) and (orientation: landscape) {
+  .container {
+    grid-template-rows: 0.5fr 5fr;
+    grid-template-areas: "header header header header" "leftbar leftbar main main";
+  }
+
+  .left-bar {
+    overflow-y: auto;
   }
 }
