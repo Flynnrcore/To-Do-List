@@ -10,13 +10,12 @@
 <body>
   <div class="container">
     <header><h3>Планировщик дел</h3></header>
-    <div class="row">
       <div class="col left-bar">
         <h3>Списки</h3>
         <form class="form-inline" data-container="new-list-form">
           <label for="new-list-name" class="sr-only">Новый список</label>
           <input type="text" id="new-list-name" class="form-control" name="name" required>
-          <input type="submit" class="btn" value="добавить">
+          <input type="submit" class="btn" value="+">
         </form>
         <div data-container="lists"></div>
       </div>
@@ -25,11 +24,10 @@
         <form class="form-inline" data-container="new-task-form">
           <label for="new-task-name" class="sr-only">Новое дело</label>
           <input type="text" id="new-task-name" class="form-control" name="name" required>
-          <input type="submit" class="btn" value="добавить">
+          <input type="submit" class="btn" value="+">
         </form>
         <div data-container="tasks"></div>
       </div>
-    </div>
   </div>
 </body>
 <script src="./src/index.js"></script>
